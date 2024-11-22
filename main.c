@@ -10,9 +10,10 @@ typedef struct
     struct LinkNode *head;
 } Linklist;
 // 添加元素
-Linklist* new_list(){
-    Linklist * list=malloc(sizeof(Linklist));
-    list->head=NULL;
+Linklist *new_list()
+{
+    Linklist *list = malloc(sizeof(Linklist));
+    list->head = NULL;
     return list;
 }
 void push(Linklist *list, int value)
@@ -48,7 +49,7 @@ void free_list(Linklist *list)
 {
     LinkNode *left = list->head;
     LinkNode *right = list->head;
-// 当月右侧的指针为NULL的时候，左侧指针刚好为最后一个节点
+    // 当月右侧的指针为NULL的时候，左侧指针刚好为最后一个节点
     while (right != NULL)
     {
         left = right;
@@ -57,15 +58,14 @@ void free_list(Linklist *list)
     }
     // 头部指针切换为NUll
     list->head = NULL;
-
-    // free(list);
+    free(list);
 }
 int pop(Linklist *list)
 {
     LinkNode *right = list->head;
     LinkNode *left = list->head;
     // 头部节点为空时返回NUll
-    if (list->head==NULL)
+    if (list->head == NULL)
     {
         return NULL;
     }
@@ -75,16 +75,16 @@ int pop(Linklist *list)
         left = right;
         right = right->next;
     }
-    int temp=right->value;
+    int temp = right->value;
     left->next = NULL;
     // 当头节点和左指针为同一个地址的时候，证明链表只有一个节点，此时可以将头节点的值设置为NULL
-        if (list->head==right)
+    if (list->head == right)
     {
         free(list->head);
-        list->head=NULL;
+        list->head = NULL;
         return temp;
     }
-    
+
     free(right);
     right = NULL;
     return temp;
@@ -101,21 +101,28 @@ void print_list(Linklist *list)
 
     while (curent_node != NULL)
     {
-        printf("%d \n", curent_node->value);
+        printf("%d ->", curent_node->value);
         curent_node = curent_node->next;
     }
 }
+void insertAtHead(Linklist *list, int value)
+{
+    LinkNode *new_node = malloc(sizeof(LinkNode));
+    new_node->next = list->head;
+    list->head = new_node;
+}
 int main(int argc, char const *argv[])
 {
-    Linklist list = {
-        NULL};
-    push(&list, 12);
-    push(&list, 11);
-    int a = pop(&list);
-    int b = pop(&list);
+    Linklist *list = new_list();
+    push(list, 12);
+    push(list, 11);
+    int a = pop(list);
+    int b = pop(list);
+    insertAtHead(list, 1);
     printf("%d\n", a);
     printf("%d\n", b);
-    printf("%d",pop(&list));
+    printf("%d\n", pop(list));
+    print_list(list);
 
     return 0;
 }
