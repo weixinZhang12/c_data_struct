@@ -1,0 +1,7 @@
+{
+    "commentTranslate.targetLanguage": "zh-CN",
+    "files.associations": {
+        "iomanip": "cpp",
+        "stdexcept": "cpp"
+    }
+}
