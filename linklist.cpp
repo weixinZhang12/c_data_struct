@@ -14,14 +14,7 @@ public:
     }
     ~LinkNode()
     {
-        LinkNode *current = this;
-        LinkNode *temp = nullptr;
-        while (current = nullptr)
-        {
-            current = current->next;
-            temp = current;
-            delete temp;
-        }
+        // delete this->next;
     }
 };
 class LinkList
@@ -67,6 +60,7 @@ public:
         {
             int temp = right->value;
             delete right;
+            right = nullptr;
             this->head = nullptr;
             return temp;
         }
@@ -77,8 +71,28 @@ public:
         }
         int temp = right->value;
         delete right;
+        right = nullptr;
         left->next = nullptr;
         return temp;
+    }
+    void delete_node_by_value(int value)
+    {
+        LinkNode *current = this->head;
+        LinkNode *temp = nullptr;
+        // current不能为nullptr
+        while (current != nullptr && current->value != value)
+        {
+            temp = current;
+            current = current->next;
+        }
+        if (current == nullptr)
+        {
+            cout << "没有找到符合条件的元素" << endl;
+            return;
+        }
+        temp->next = current->next;
+        delete current;
+        current = nullptr;
     }
     // 打印链表元素
     void print_list()
@@ -97,7 +111,14 @@ public:
     }
     ~LinkList()
     {
-        delete this->head;
+        LinkNode *current = this->head;
+        while (current != nullptr)
+        {
+            LinkNode *temp = current;
+            current = current->next;
+            delete temp;
+        }
+        this->head = nullptr; // 确保指针为 nullptr
     }
 };
 int main(int argc, char const *argv[])
@@ -106,12 +127,15 @@ int main(int argc, char const *argv[])
     list->push(12);
     list->push(13);
     list->push(1234);
-    //	list->print_list();
-    cout << list->is_empty() << endl;
-    cout << list->pop_back() << endl;
-    cout << list->pop_back() << endl;
-    cout << list->pop_back() << endl;
-    cout << list->pop_back() << endl;
+    list->delete_node_by_value(13);
+    list->print_list();
+
+    delete list;
+    // list=nullptr;
+    // cout << list->pop_back() << endl;
+    // cout << list->pop_back() << endl;
+    // cout << list->pop_back() << endl;
+    // cout << list->pop_back() << endl;
 
     return 0;
 }

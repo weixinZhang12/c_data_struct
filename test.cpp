@@ -187,11 +187,16 @@ public:
         file.close();
         cout << "\e[1;32m写入文件成功\e[0m" << endl;
     }
-
+    // id升序比较函数
     static bool compare_by_id_raise(const Student *a, const Student *b)
     {
         return a->id < b->id;
     }
+    static bool compare_by_grade_down(const Student *a, const Student *b)
+    {
+        return a->grade > b->grade;
+    }
+    // 按照id顺序升序打印
     void print_student_info_by_id()
     {
         vector<Student *> temp_v;
@@ -202,6 +207,18 @@ public:
         sort(temp_v.begin(), temp_v.end(), compare_by_id_raise);
         print_student_info(temp_v);
     }
+    void print_student_info_by_grade()
+    {
+        vector<Student *> temp_v;
+        for (const auto &entry : map)
+        {
+            temp_v.push_back(entry.second);
+        }
+        sort(temp_v.begin(), temp_v.end(), compare_by_grade_down);
+        print_student_info(temp_v);
+    }
+    
+    // 通用打印函数
     void print_student_info(const vector<Student *> vec)
     {
 
@@ -247,12 +264,12 @@ public:
     // 打印信息，无序打印
     void print_info()
     {
-      vector<Student* > temp_vec;
-      for(const auto&entry:this->map){
-        temp_vec.push_back(entry.second);
-      }
-      print_student_info(temp_vec);
-
+        vector<Student *> temp_vec;
+        for (const auto &entry : this->map)
+        {
+            temp_vec.push_back(entry.second);
+        }
+        print_student_info(temp_vec);
     }
     // 释放StudentManger的相关的内存
     ~StudentManger()
@@ -371,7 +388,8 @@ int main(int argc, char const *argv[])
             manger->delete_student_info();
             break;
         case 5:
-            manger->print_info();
+            manger->print_student_info_by_grade();
+
             break;
         case 6:
             manger->export_studnet_info();
