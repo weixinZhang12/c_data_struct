@@ -50,7 +50,7 @@ public:
         LinkNode *right = this->head;
         LinkNode *left = nullptr;
 
-        //			如果头节点为空直接跳过
+        // 如果头节点为空直接跳过
         if (right == nullptr)
         {
             return -1;
@@ -79,12 +79,14 @@ public:
     {
         LinkNode *current = this->head;
         LinkNode *temp = nullptr;
-        // current不能为nullptr
+        // current不能为nullptr，当节点为nullptr的时候跳出循环，
+        // 随后对nullptr情况进行单独处理，其他情况就是有值的情况
         while (current != nullptr && current->value != value)
         {
             temp = current;
             current = current->next;
         }
+        // 处理没有找到的情况
         if (current == nullptr)
         {
             cout << "没有找到符合条件的元素" << endl;
@@ -93,6 +95,7 @@ public:
         temp->next = current->next;
         delete current;
         current = nullptr;
+        this->length-=1;
     }
     // 打印链表元素
     void print_list()
@@ -104,7 +107,7 @@ public:
             current_node = current_node->next;
         }
     }
-
+// 判断链表是否为空
     bool is_empty()
     {
         return this->length == 0;
@@ -127,15 +130,10 @@ int main(int argc, char const *argv[])
     list->push(12);
     list->push(13);
     list->push(1234);
-    list->delete_node_by_value(13);
+    // list->delete_node_by_value(13);
     list->print_list();
 
     delete list;
     // list=nullptr;
-    // cout << list->pop_back() << endl;
-    // cout << list->pop_back() << endl;
-    // cout << list->pop_back() << endl;
-    // cout << list->pop_back() << endl;
-
     return 0;
 }
